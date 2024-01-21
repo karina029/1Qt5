@@ -1,49 +1,34 @@
-# liblary
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
-
-def win():
-    message = QMessageBox()
-    message.setText("Вітаю! Ви пройшли опитування!")
-    message.setIcon(QMessageBox.Information)
-    message.exec()
-def lose():
-    message = QMessageBox()
-    message.setText("На жаль, ви пройшли опитування(")
-    message.setIcon(QMessageBox.Warning)
-    message.exec()
-
+from random import *
 app = QApplication([])
 my_win = QWidget()
-my_win.resize(400, 300)
-my_win.setWindowTitle('Опитування')
+my_win.resize(800, 400)
+my_win.move(400, 400)
+my_win.setWindowTitle("Лотерея")
 
-btn_ans1 = QRadioButton('Java Script')
-btn_ans2 = QRadioButton('C')
-btn_ans3 = QRadioButton('Python')
-btn_ans4 = QRadioButton('SQL')
-queshion = QLabel('Яка найпопулярніша мова програмування')
+btn = QPushButton("Випробувати удачу")
+text = QLabel("Натисни, щоб взяти участь")
+win = QLabel("?")
+win2 = QLabel("?")
 
-line = QHBoxLayout()
-line2 = QHBoxLayout()
-line3 = QHBoxLayout()
+line = QVBoxLayout()
+line.addWidget(text, alignment=Qt.AlignCenter)
+line.addWidget(win, alignment=Qt.AlignCenter)
+line.addWidget(win2, alignment=Qt.AlignCenter)
+line.addWidget(btn, alignment=Qt.AlignCenter)
+my_win.setLayout(line)
 
-line.addWidget(queshion, alignment=Qt.AlignCenter)
-line2.addWidget(btn_ans1, alignment=Qt.AlignCenter)
-line2.addWidget(btn_ans2, alignment=Qt.AlignCenter)
-line3.addWidget(btn_ans3, alignment=Qt.AlignCenter)
-line3.addWidget(btn_ans4, alignment=Qt.AlignCenter)
-
-layout2 = QVBoxLayout()
-layout2.addLayout(line)
-layout2.addLayout(line2)
-layout2.addLayout(line3)
-my_win.setLayout(layout2)
-
-btn_ans1.clicked.connect(lose)
-btn_ans2.clicked.connect(lose)
-btn_ans3.clicked.connect(win)
-btn_ans4.clicked.connect(lose)
+def show_win():
+    number = randint(0, 9)
+    number2 = randint(0, 9)
+    win.setText(str(number))
+    win2.setText(str(number2))
+    if number == number2:
+        text.setText(str("Ви виграли! Зіграйте знову"))
+    else:
+        text.setText(str("Ви програли! Зіграйте знову"))
+btn.clicked.connect(show_win)
 
 my_win.show()
-app.exec()
+app.exec_()
